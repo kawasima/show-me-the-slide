@@ -13,7 +13,7 @@ const sagaMiddleware = createSagaMiddleware()
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: []
+  whitelist: ['slide']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducer)

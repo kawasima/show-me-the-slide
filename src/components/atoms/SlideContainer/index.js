@@ -10,6 +10,7 @@ const ASPECT_RATIO = {
 
 const Wrapper = styled.div`
   position: absolute;
+  align-self: flex-start;
   transform-origin: top left;
   transform: scale(${props => props.scale});
   width: ${props => props.width}px;

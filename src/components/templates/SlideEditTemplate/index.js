@@ -5,9 +5,12 @@ import Prism from 'prismjs'
 import 'prismjs/components/prism-java'
 import 'prismjs/themes/prism.css'
 
-import SlidePreviewList from '../../organisms/SlidePreviewList'
+import SlideContainer from '../../atoms/SlideContainer'
+import SlideKeyOperationContainer from '../../atoms/SlideKeyOperationContainer'
 import MarkdownEditor from '../../molecules/MarkdownEditor'
 import Slide from '../../molecules/Slide'
+import NavigationHeader from '../../molecules/NavigationHeader'
+import SlidePreviewList from '../../organisms/SlidePreviewList'
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,6 +36,7 @@ const Wrapper = styled.div`
 
 const SlideEditTemplate = (props) => (
   <Wrapper>
+    <NavigationHeader/>
     <div className="row">
       <div className="content full">
         <SlidePreviewList slide={props.slide}
@@ -46,7 +50,11 @@ const SlideEditTemplate = (props) => (
                         onUpdatePage={(editor, data, value) => props.onUpdatePage(props.slide.current, value)} />
       </div>
       <div className="content" style={{margin: '0.5em'}}>
-        <Slide input={props.slide.pages[props.slide.current]}/>
+        <SlideContainer>
+          <SlideKeyOperationContainer {...props}>
+            <Slide input={props.slide.pages[props.slide.current]}/>
+          </SlideKeyOperationContainer>
+        </SlideContainer>
       </div>
     </div>
   </Wrapper>

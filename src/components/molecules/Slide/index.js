@@ -7,8 +7,7 @@ import ReactMarkdown from 'react-markdown'
 const Wrapper = styled.div`
   height: 100%;
   width: 100%;
-  display: table;
-  table-layout: fixed;
+  overflow: hidden;
   border: 1px solid #ccc;
   filter: drop-shadow(3px 3px 1px rgba(0,0,0,0.6));
 `
@@ -19,8 +18,12 @@ const SlideContent = styled.div`
   background-color: #fff;
   background-position: center;
   background-repeat: no-repeat;
-  display: table-cell;
+  height: 100%;
   padding: 1em 4em 1em 4em;
+
+  img {
+    max-width: 100%;
+  }
 `
 
 class Slide extends React.Component {

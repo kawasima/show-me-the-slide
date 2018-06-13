@@ -4,6 +4,10 @@ export default createActions(
   'UI_UPDATE_PAGE',
   'UI_ADD_PAGE',
   'UI_SELECT_PAGE',
+  'UI_GO_TO_NEXT',
+  'UI_GO_TO_PREV',
+  'UI_START_SLIDE_SHOW',
+  'UI_STOP_SLIDE_SHOW',
 
   'SET_NEW_PAGE',
   'SET_PAGE',
