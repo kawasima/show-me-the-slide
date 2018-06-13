@@ -22,6 +22,9 @@ export default handleActions({
       })
     }
   ),
+  [Actions.setEntirePages]: (state, action) => (
+    { ...action.payload }
+  ),
   [Actions.setCurrentPage]: (state, action) => (
     { ...state, current: action.payload.current }
   )

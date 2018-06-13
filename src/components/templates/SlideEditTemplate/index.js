@@ -45,7 +45,7 @@ const SlideEditTemplate = (props) => (
       </div>
     </div>
     <div className="row">
-      <div className="content">
+      <div className="content" style={{maxWidth: '50%'}}>
         <MarkdownEditor value={props.slide.pages[props.slide.current]}
                         onUpdatePage={(editor, data, value) => props.onUpdatePage(props.slide.current, value)} />
       </div>

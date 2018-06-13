@@ -3,11 +3,17 @@ import {
   select,
   put
 } from 'redux-saga/effects'
-
+import axios from 'axios'
 import { push } from 'react-router-redux'
 import Actions from '../actions/slide-actions'
 
-
+export function* onSlideLoaded(action) {
+  const res = yield axios.get(action.payload.url, {
+    responseType: 'text'
+  })
+  const pages = res.data.split(/[\n\r]\-{4,}[\n\r]/m)
+  yield put(Actions.setEntirePages({ pages, current: 0}))
+}
 export function* onSelectPage(action) {
   yield put(Actions.setCurrentPage(action.payload))
 }
@@ -43,6 +49,7 @@ export function* onStopSlideShow(action) {
 }
 
 export default function* rootSaga() {
+  yield takeLatest('UI_SLIDE_LOADED', onSlideLoaded)
   yield takeLatest('UI_UPDATE_PAGE', onUpdatePage)
   yield takeLatest('UI_ADD_PAGE', onAddPage)
   yield takeLatest('UI_SELECT_PAGE', onSelectPage)

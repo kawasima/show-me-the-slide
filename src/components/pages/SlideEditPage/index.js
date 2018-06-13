@@ -4,7 +4,20 @@ import Actions from '../../../actions/slide-actions'
 
 import SlideEditTemplate from '../../templates/SlideEditTemplate'
 
-const SlideEditPage = (props) => (<SlideEditTemplate {...props} />)
+class SlideEditPage extends React.Component {
+  constructor(props) {
+    super(props)
+    const params = new URLSearchParams(props.location.search)
+    const url = params.get('url')
+    if (url) {
+      props.onSlideLoad(url)
+    }
+  }
+
+  render() {
+    return (<SlideEditTemplate {...this.props} />)
+  }
+}
 
 const connector = connect(
   s => s,
@@ -16,6 +29,7 @@ const connector = connect(
           page: content,
         }))
       },
+      onSlideLoad: url => dispatch(Actions.uiSlideLoaded({ url })),
       onPressF5: () => dispatch(Actions.uiStartSlideShow()),
       onPressNewSlide: () => dispatch(Actions.uiAddPage({})),
       onPressSlide: (index) => dispatch(Actions.uiSelectPage({current: index})),
