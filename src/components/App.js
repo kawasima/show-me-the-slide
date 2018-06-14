@@ -5,13 +5,15 @@ import { ConnectedRouter } from 'react-router-redux'
 import { browserHistory } from '../store'
 import { hot } from 'react-hot-loader'
 
-import SlideEditPage from './pages/SlideEditPage'
 import SlideShowPage from './pages/SlideShowPage'
+import SlideEditPage from './pages/SlideEditPage'
+import SlideExportPage from './pages/SlideExportPage'
 
 const App = () => (
   <ConnectedRouter history={browserHistory}>
     <Switch>
       <Route path="/show" component={SlideShowPage}/>
+      <Route path="/export" component={SlideExportPage}/>
       <Route path="/" component={SlideEditPage}/>
     </Switch>
   </ConnectedRouter>

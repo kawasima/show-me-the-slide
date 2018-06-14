@@ -2,6 +2,8 @@ import { createActions } from 'redux-actions'
 
 export default createActions(
   'UI_SLIDE_LOADED',
+  'UI_EXPORT_SLIDE',
+  'UI_RETURN_TO_TOP',
   'UI_UPDATE_PAGE',
   'UI_ADD_PAGE',
   'UI_SELECT_PAGE',

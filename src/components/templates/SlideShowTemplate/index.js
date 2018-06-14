@@ -15,13 +15,13 @@ const Wrapper = styled.div`
 `
 
 const SlideShowTemplate = (props) => (
-  <Wrapper>
-    <SlideKeyOperationContainer {...props}>
-      <SlideContainer>
+  <SlideKeyOperationContainer {...props}>
+    <Wrapper>
+      <SlideContainer alignment={'center'}>
         <Slide input={props.slide.pages[props.slide.current]}/>
       </SlideContainer>
-    </SlideKeyOperationContainer>
-  </Wrapper>
+    </Wrapper>
+  </SlideKeyOperationContainer>
 )
 
 SlideShowTemplate.propTypes = {

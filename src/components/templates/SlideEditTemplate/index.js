@@ -7,6 +7,7 @@ import 'prismjs/themes/prism.css'
 
 import SlideContainer from '../../atoms/SlideContainer'
 import SlideKeyOperationContainer from '../../atoms/SlideKeyOperationContainer'
+import FitterContainer from '../../atoms/FitterContainer'
 import MarkdownEditor from '../../molecules/MarkdownEditor'
 import Slide from '../../molecules/Slide'
 import NavigationHeader from '../../molecules/NavigationHeader'
@@ -32,11 +33,20 @@ const Wrapper = styled.div`
     min-width: 100%
     max-width: 100%;
   }
+
+  div.editor {
+    padding: 2px;
+  }
 `
 
+const Label = styled.p`
+  margin-top: 1px;
+  margin-bottom: 2px;
+  font-size: 0.8em;
+`
 const SlideEditTemplate = (props) => (
   <Wrapper>
-    <NavigationHeader/>
+    <NavigationHeader {...props}/>
     <div className="row">
       <div className="content full">
         <SlidePreviewList slide={props.slide}
@@ -45,11 +55,13 @@ const SlideEditTemplate = (props) => (
       </div>
     </div>
     <div className="row">
-      <div className="content" style={{maxWidth: '50%'}}>
+      <div className="content editor" style={{maxWidth: '50%'}}>
+        <Label>Edit:</Label>
         <MarkdownEditor value={props.slide.pages[props.slide.current]}
                         onUpdatePage={(editor, data, value) => props.onUpdatePage(props.slide.current, value)} />
       </div>
-      <div className="content" style={{margin: '0.5em'}}>
+      <div className="content" style={{marginLeft: '0.5em'}}>
+        <Label>Preview:</Label>
         <SlideContainer>
           <SlideKeyOperationContainer {...props}>
             <Slide input={props.slide.pages[props.slide.current]}/>

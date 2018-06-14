@@ -33,6 +33,7 @@ const connector = connect(
       onPressF5: () => dispatch(Actions.uiStartSlideShow()),
       onPressNewSlide: () => dispatch(Actions.uiAddPage({})),
       onPressSlide: (index) => dispatch(Actions.uiSelectPage({current: index})),
+      onPressExportButton: () => dispatch(Actions.uiExportSlide()),
     }
   )
 )

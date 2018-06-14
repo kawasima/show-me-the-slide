@@ -11,7 +11,7 @@ const ASPECT_RATIO = {
 const Wrapper = styled.div`
   position: absolute;
   align-self: flex-start;
-  transform-origin: top left;
+  transform-origin: top ${props => props.alignment};
   transform: scale(${props => props.scale});
   width: ${props => props.width}px;
   height: ${props => props.height}px;
@@ -74,6 +74,7 @@ class SlideContainer extends React.Component {
                width={ratio.width}
                height={ratio.height}
                focus={this.props.focus}
+               alignment={this.props.alignment}
                innerRef={el => {if (el) { this.el = el.parentNode}}}>
         {this.props.children}
       </Wrapper>
@@ -82,12 +83,14 @@ class SlideContainer extends React.Component {
 
   static propTypes = {
     aspectRatio: PropTypes.string,
-    focus: PropTypes.bool
+    alignment: PropTypes.string,
+    focus: PropTypes.bool,
   }
 
   static defaultProps = {
     aspectRatio: '4:3',
-    focus: false
+    alignment: 'left',
+    focus: false,
   }
 }
 
