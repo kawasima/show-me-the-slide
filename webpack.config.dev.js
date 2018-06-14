@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.config.base');
 const convert = require('koa-connect');
@@ -16,8 +15,5 @@ module.exports = merge(baseConfig, {
     hot: true
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html.ejs'
-    })
   ]
 });

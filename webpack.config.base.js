@@ -1,7 +1,11 @@
 const webpack = require('webpack')
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const BASE_PLUGINS = [
+  new HtmlWebpackPlugin({
+    template: './src/index.html.ejs'
+  }),
   new webpack.DefinePlugin({
     'process.env': {
       'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
