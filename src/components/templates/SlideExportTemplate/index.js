@@ -31,7 +31,7 @@ const generateMonolithicStylesheets = (styles) => (
 
 const SlideExportTemplate = (props) => (
   <Wrapper>
-    <NavigationHeader {...props} showDoneButton={true} showExportButton={false}/>
+    <NavigationHeader {...props}/>
     <div className="row">
       <div className="content">
         <TextInput multiline={true} editable={false}

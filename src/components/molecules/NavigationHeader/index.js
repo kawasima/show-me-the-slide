@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
-import { Button, View } from 'react-native-web'
+import { Button, View, TextInput } from 'react-native-web'
 import DropdownMenu from '../../molecules/DropdownMenu'
 
 const Wrapper = styled.nav`
@@ -78,6 +78,8 @@ const renderDeleteButton = (props) => (
 const NavigationHeader = (props) => (
   <Wrapper>
     <LogoText>Show me the slide</LogoText>
+    <TextInput/>
+
     <RightItem>
       { props.onPressExportButton && renderExportButton(props) }
       { props.onPressDeleteButton && renderDeleteButton(props) }

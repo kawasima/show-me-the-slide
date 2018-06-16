@@ -1,3 +1,4 @@
+/* global URLSearchParams */
 import React from 'react'
 import { connect } from 'react-redux'
 import Actions from '../../../actions/slide-actions'
@@ -15,7 +16,9 @@ class SlideEditPage extends React.Component {
   }
 
   render() {
-    return (<SlideEditTemplate {...this.props} />)
+    return (
+      <SlideEditTemplate {...this.props} />
+    )
   }
 }
 
