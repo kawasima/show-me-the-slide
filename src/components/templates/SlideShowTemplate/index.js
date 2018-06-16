@@ -18,7 +18,8 @@ const SlideShowTemplate = (props) => (
   <SlideKeyOperationContainer {...props}>
     <Wrapper>
       <SlideContainer alignment={'center'}>
-        <Slide input={props.slide.pages[props.slide.current]}/>
+        <Slide content={props.slide.pages[props.slide.current].content}
+               styleText={props.slide.pages[props.slide.current].style}/>
       </SlideContainer>
     </Wrapper>
   </SlideKeyOperationContainer>

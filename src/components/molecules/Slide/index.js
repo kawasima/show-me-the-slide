@@ -20,10 +20,13 @@ const SlideContent = styled.div`
   background-repeat: no-repeat;
   height: 100%;
   padding: 1em 4em 1em 4em;
+  font-size: x-large;
 
   img {
     max-width: 100%;
   }
+
+  ${props => props.styleText}
 `
 
 class Slide extends React.Component {
@@ -40,7 +43,7 @@ class Slide extends React.Component {
       <Wrapper>
         <SlideContent {...this.props} innerRef={this.dom}>
           <ReactMarkdown
-            source={this.props.input} />
+            source={this.props.content} />
         </SlideContent>
       </Wrapper>
     )
@@ -48,7 +51,8 @@ class Slide extends React.Component {
 }
 
 Slide.propTypes = {
-  input: PropTypes.string,
+  content: PropTypes.string,
+  styleText: PropTypes.string,
   aspectRatio: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,

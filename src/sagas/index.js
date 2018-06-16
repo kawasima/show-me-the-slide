@@ -11,7 +11,8 @@ export function* onSlideLoaded(action) {
   const res = yield axios.get(action.payload.url, {
     responseType: 'text'
   })
-  const pages = res.data.split(/[\n\r]-{4,}[\n\r]/m)
+  const contents = res.data.split(/[\n\r]-{4,}[\n\r]/m)
+  const pages = contents.map(c => ({ content: c }))
   yield put(Actions.setEntirePages({ pages, current: 0}))
 }
 export function* onSelectPage(action) {
@@ -28,7 +29,7 @@ export function* onUpdatePage(action) {
 
 export function* onGoToNext() {
   const { pages, current } = yield select((s) => s.slide)
-  if (current < pages.length) {
+  if (current < pages.length - 1) {
     yield put(Actions.setCurrentPage({ current: current + 1}))
   }
 }
@@ -44,6 +45,10 @@ export function* onStartSlideShow() {
   yield put(push('/show'))
 }
 
+export function* onDeleteAllSlides() {
+  yield put(Actions.setEntirePages({pages: [{ content: ''}], current: 0}))
+}
+
 export function* onExportSlide() {
   yield put(push('/export'))
 }
@@ -54,6 +59,7 @@ export function* onReturnToTop() {
 
 export default function* rootSaga() {
   yield takeLatest('UI_EXPORT_SLIDE', onExportSlide)
+  yield takeLatest('UI_DELETE_ALL_SLIDES', onDeleteAllSlides)
   yield takeLatest('UI_RETURN_TO_TOP', onReturnToTop)
   yield takeLatest('UI_SLIDE_LOADED', onSlideLoaded)
   yield takeLatest('UI_UPDATE_PAGE', onUpdatePage)

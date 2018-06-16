@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 import Actions from '../actions/slide-actions'
 
 const initialState = {
-  pages: [''],
+  pages: [{ content: '', style: ''}],
   current: 0,
 }
 
@@ -15,7 +15,7 @@ export default handleActions({
       ...state,
       pages: state.pages.map((p, i) => {
         if (state.current === i) {
-          return action.payload.page
+          return { ...p, ...action.payload.page }
         } else {
           return p
         }

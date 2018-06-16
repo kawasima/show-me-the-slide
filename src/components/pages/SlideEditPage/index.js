@@ -23,17 +23,18 @@ const connector = connect(
   s => s,
   dispatch => (
     {
-      onUpdatePage: (pageNumber, content) => {
+      onUpdatePage: (pageNumber, page) => {
         dispatch(Actions.uiUpdatePage({
           current: pageNumber,
-          page: content,
+          page,
         }))
       },
       onSlideLoad: url => dispatch(Actions.uiSlideLoaded({ url })),
       onPressF5: () => dispatch(Actions.uiStartSlideShow()),
-      onPressNewSlide: () => dispatch(Actions.uiAddPage({})),
+      onPressNewSlide: () => dispatch(Actions.uiAddPage({ page: { content: '' }})),
       onPressSlide: (index) => dispatch(Actions.uiSelectPage({current: index})),
       onPressExportButton: () => dispatch(Actions.uiExportSlide()),
+      onPressDeleteButton: () => dispatch(Actions.uiDeleteAllSlides()),
     }
   )
 )

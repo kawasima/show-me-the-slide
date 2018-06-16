@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
-import { Button } from 'react-native-web'
+import { Button, View } from 'react-native-web'
 import DropdownMenu from '../../molecules/DropdownMenu'
 
 const Wrapper = styled.nav`
@@ -54,33 +54,48 @@ const RightItem = styled.div`
 `
 
 const renderDoneButton = (props) => (
-  <Button title="Done" onPress={() => {
-      console.log(props)
-      props.onPressDoneButton && props.onPressDoneButton()
-    }} />
+  <View style={{ marginLeft: 10}}>
+    <Button title="Done" onPress={() => {
+        props.onPressDoneButton && props.onPressDoneButton()
+      }} />
+  </View>
 )
 const renderExportButton = (props) => (
-  <Button title="Export" onPress={() => props.onPressExportButton && props.onPressExportButton() } />
+  <View style={{ marginLeft: 10}}>
+    <Button title="Export"
+            onPress={() => props.onPressExportButton && props.onPressExportButton() } />
+  </View>
+)
+
+const renderDeleteButton = (props) => (
+  <View style={{ marginLeft: 10}}>
+    <Button title="Delete All"
+            color="#d9534f"
+            onPress={() => props.onPressDeleteButton && props.onPressDeleteButton() } />
+  </View>
 )
 
 const NavigationHeader = (props) => (
   <Wrapper>
     <LogoText>Show me the slide</LogoText>
     <RightItem>
-      { props.showExportButton && renderExportButton(props) }
-      { props.showDoneButton && renderDoneButton(props) }
+      { props.onPressExportButton && renderExportButton(props) }
+      { props.onPressDeleteButton && renderDeleteButton(props) }
+      { props.onPressDoneButton && renderDoneButton(props) }
     </RightItem>
   </Wrapper>
 )
 
 NavigationHeader.defaultProps = {
-  showDonwButton: false,
+  showDoneButton: false,
   showExportButton: true,
+  showDeleteButton: true,
 }
 
 NavigationHeader.propTypes = {
   showDoneButton: PropTypes.bool,
   showExportButton: PropTypes.bool,
+  showDeleteButton: PropTypes.bool,
 }
 
 export default NavigationHeader

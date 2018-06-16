@@ -29,7 +29,9 @@ const NewSlideButton = styled.button`
 const renderSlidePreview = (page, index, props) => (
   <SlidePreview key={`slide-preview-${index}`}>
     <SlideContainer focus={index === props.slide.current}>
-      <Slide input={page} onClick={() => props.onPressSlide(index)}/>
+      <Slide content={page.content}
+             styleText={page.style}
+             onClick={() => props.onPressSlide(index)}/>
     </SlideContainer>
   </SlidePreview>
 )

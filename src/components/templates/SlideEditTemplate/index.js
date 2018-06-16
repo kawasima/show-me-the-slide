@@ -8,9 +8,9 @@ import 'prismjs/themes/prism.css'
 import SlideContainer from '../../atoms/SlideContainer'
 import SlideKeyOperationContainer from '../../atoms/SlideKeyOperationContainer'
 import FitterContainer from '../../atoms/FitterContainer'
-import MarkdownEditor from '../../molecules/MarkdownEditor'
 import Slide from '../../molecules/Slide'
 import NavigationHeader from '../../molecules/NavigationHeader'
+import PageEditor from '../../organisms/PageEditor'
 import SlidePreviewList from '../../organisms/SlidePreviewList'
 
 const Wrapper = styled.div`
@@ -57,14 +57,14 @@ const SlideEditTemplate = (props) => (
     <div className="row">
       <div className="content editor" style={{maxWidth: '50%'}}>
         <Label>Edit:</Label>
-        <MarkdownEditor value={props.slide.pages[props.slide.current]}
-                        onUpdatePage={(editor, data, value) => props.onUpdatePage(props.slide.current, value)} />
+        <PageEditor {...props} />
       </div>
       <div className="content" style={{marginLeft: '0.5em'}}>
         <Label>Preview:</Label>
         <SlideContainer>
           <SlideKeyOperationContainer {...props}>
-            <Slide input={props.slide.pages[props.slide.current]}/>
+            <Slide content={props.slide.pages[props.slide.current].content}
+                   styleText={props.slide.pages[props.slide.current].style}/>
           </SlideKeyOperationContainer>
         </SlideContainer>
       </div>
