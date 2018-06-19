@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
-import { Button, View, TextInput } from 'react-native-web'
+import { Button, View } from 'react-native-web'
 import DropdownMenu from '../../molecules/DropdownMenu'
 
 const Wrapper = styled.nav`
@@ -37,16 +37,7 @@ const LogoText = styled.h1`
   position: relative;
   margin: 1px 0;
   color: #f0f0f0;
-  ::before {
-    content: 'Show me the slide';
-    position: absolute;
-    left: -.08em;
-    top: .08em;
-    color: #ccc;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAFUlEQVQIW2NkQAKMIPZ/IGAEAWQZAE5lBATogF4qAAAAAElFTkSuQmCC);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+  text-shadow: 1px 1px #ffe0e0;
 `
 const RightItem = styled.div`
   display:flex;
@@ -85,7 +76,6 @@ const renderDeleteButton = (props) => (
 const NavigationHeader = (props) => (
   <Wrapper>
     <LogoText>Show me the slide</LogoText>
-    <TextInput/>
 
     <RightItem>
       { props.onPressExportButton && renderExportButton(props) }
@@ -100,7 +90,7 @@ NavigationHeader.propTypes = {
   printElement: PropTypes.element,
   onPressDoneButton: PropTypes.func,
   onPressExportButton: PropTypes.func,
-  onPressPressButton: PropTypes.func,
+  onPressPrintButton: PropTypes.func,
   onPressDeleteButton: PropTypes.func,
 }
 

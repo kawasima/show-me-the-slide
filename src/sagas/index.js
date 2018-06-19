@@ -1,6 +1,8 @@
 import {
   takeLatest,
   select,
+  all,
+  call,
   put
 } from 'redux-saga/effects'
 import axios from 'axios'
@@ -9,35 +11,69 @@ import Actions from '../actions/slide-actions'
 import csstree from 'css-tree'
 
 function parseStyle(style) {
-  const styles = []
+  const rulesSet = []
   const ast = csstree.parse(style)
-  csstree.walk(ast, node => {
-    if (node.type === 'Selector') {
-      if (node.children
-          && node.children.length > 1
-          && node.children[0].type.startsWith('page-')) {
-        const pageClass = node.children[0]
-        const found = pageClass.type.match(/page-(\d+)/)
-        if (found && found.length > 1) {
-          const style = styles[parseInt(found[1])]
-          if (style) {
-            style.push(node)
-          } else {
-            styles[parseInt(found[1])] = [node]
+
+  ast.children.forEach(node => {
+    if (node.type === 'Rule'
+        && node.prelude
+        && node.prelude.type === 'SelectorList'
+        && node.prelude.children) {
+      node.prelude.children.forEach(selector => {
+        if (selector.children
+            && selector.children.getSize() > 1
+            && selector.children.first().type === 'ClassSelector'
+            && selector.children.first().name.startsWith('page-')) {
+          const pageClass = selector.children.shift().data
+          const found = pageClass.name.match(/page-(\d+)/)
+          if (found && found.length > 1) {
+
+            const rules = rulesSet[parseInt(found[1])]
+            if (rules) {
+              rules.push(csstree.generate(node))
+            } else {
+              rulesSet[parseInt(found[1])] = [csstree.generate(node)]
+            }
           }
         }
-      }
+      })
     }
   })
-  return styles
+
+  return rulesSet.map(rules => rules ? rules.join('\n') : null)
+}
+
+export function* loadStyle(url) {
+  if (url) {
+    const res = yield axios.get(url, {
+      responseType: 'text'
+    })
+    return parseStyle(res.data)
+  } else {
+    return null
+  }
+}
+
+export function* loadContent(url) {
+  if (url) {
+    const res = yield axios.get(url, {
+      responseType: 'text'
+    })
+    return res.data.split(/[\n\r]-{4,}[\n\r]/m)
+  } else {
+    return null;
+  }
 }
 
 export function* onSlideLoaded(action) {
-  const res = yield axios.get(action.payload.url, {
-    responseType: 'text'
-  })
-  const contents = res.data.split(/[\n\r]-{4,}[\n\r]/m)
-  const pages = contents.map(c => ({ content: c }))
+  const [contents, styles] = yield all([
+    call(loadContent, action.payload.content),
+    call(loadStyle,   action.payload.style),
+  ])
+
+  const len = Math.max(contents.length, styles.length)
+  const pages = Array.from({length: len}, (x,i) => i)
+        .map(i => ({ content: contents[i], style: styles[i]}))
   yield put(Actions.setEntirePages({ pages, current: 0}))
 }
 export function* onSelectPage(action) {
