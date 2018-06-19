@@ -8,12 +8,14 @@ import { hot } from 'react-hot-loader'
 import SlideShowPage from './pages/SlideShowPage'
 import SlideEditPage from './pages/SlideEditPage'
 import SlideExportPage from './pages/SlideExportPage'
+import SlidePrintPage from './pages/SlidePrintPage'
 
 const App = () => (
   <ConnectedRouter history={browserHistory}>
     <Switch>
       <Route path="/show" component={SlideShowPage}/>
       <Route path="/export" component={SlideExportPage}/>
+      <Route path="/print" component={SlidePrintPage}/>
       <Route path="/" component={SlideEditPage}/>
     </Switch>
   </ConnectedRouter>

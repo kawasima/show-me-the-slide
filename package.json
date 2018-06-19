@@ -24,8 +24,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "codemirror": "^5.38.0",
+    "css-tree": "^1.0.0-alpha.29",
     "final-form": "^4.6.1",
     "history": "^4.7.2",
+    "html2pdf.js": "^0.9.0",
     "prismjs": "^1.14.0",
     "react": "^16.4.0",
     "react-art": "^16.4.0",

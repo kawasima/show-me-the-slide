@@ -9,9 +9,10 @@ class SlideEditPage extends React.Component {
   constructor(props) {
     super(props)
     const params = new URLSearchParams(props.location.search)
-    const url = params.get('url')
-    if (url) {
-      props.onSlideLoad(url)
+    const content = params.get('content')
+    const style = params.get('style')
+    if (content || style) {
+      props.onSlideLoad(content, style)
     }
   }
 
@@ -32,7 +33,7 @@ const connector = connect(
           page,
         }))
       },
-      onSlideLoad: url => dispatch(Actions.uiSlideLoaded({ url })),
+      onSlideLoad: (content, style) => dispatch(Actions.uiSlideLoaded({ content, style })),
       onPressF5: () => dispatch(Actions.uiStartSlideShow()),
       onPressNewSlide: () => dispatch(Actions.uiAddPage({ page: { content: '' }})),
       onPressSlide: (index) => dispatch(Actions.uiSelectPage({current: index})),

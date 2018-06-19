@@ -8,12 +8,13 @@ import Slide from '../../molecules/Slide'
 const Wrapper = styled.div`
   overflow-x: scroll;
   overflow-y: hidden;
-  white-space: nowrap;
   height: ${ props => props.height }px;
+  white-space: nowrap;
 `
 
 const SlidePreview = styled.div`
   display: inline-block;
+  white-space: normal;
   height: 100%;
   width: 266px;
   position: relative;

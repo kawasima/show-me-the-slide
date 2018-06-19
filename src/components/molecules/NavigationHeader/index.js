@@ -67,6 +67,13 @@ const renderExportButton = (props) => (
   </View>
 )
 
+const renderPrintButton = (props) => (
+  <View style={{ marginLeft: 10}}>
+    <Button title="Print"
+            onPress={() => props.onPressPrintButton && props.onPressPrintButton(props.printElement) } />
+  </View>
+)
+
 const renderDeleteButton = (props) => (
   <View style={{ marginLeft: 10}}>
     <Button title="Delete All"
@@ -83,21 +90,18 @@ const NavigationHeader = (props) => (
     <RightItem>
       { props.onPressExportButton && renderExportButton(props) }
       { props.onPressDeleteButton && renderDeleteButton(props) }
+      { props.onPressPrintButton && renderPrintButton(props) }
       { props.onPressDoneButton && renderDoneButton(props) }
     </RightItem>
   </Wrapper>
 )
 
-NavigationHeader.defaultProps = {
-  showDoneButton: false,
-  showExportButton: true,
-  showDeleteButton: true,
-}
-
 NavigationHeader.propTypes = {
-  showDoneButton: PropTypes.bool,
-  showExportButton: PropTypes.bool,
-  showDeleteButton: PropTypes.bool,
+  printElement: PropTypes.element,
+  onPressDoneButton: PropTypes.func,
+  onPressExportButton: PropTypes.func,
+  onPressPressButton: PropTypes.func,
+  onPressDeleteButton: PropTypes.func,
 }
 
 export default NavigationHeader

@@ -6,6 +6,31 @@ import {
 import axios from 'axios'
 import { push } from 'react-router-redux'
 import Actions from '../actions/slide-actions'
+import csstree from 'css-tree'
+
+function parseStyle(style) {
+  const styles = []
+  const ast = csstree.parse(style)
+  csstree.walk(ast, node => {
+    if (node.type === 'Selector') {
+      if (node.children
+          && node.children.length > 1
+          && node.children[0].type.startsWith('page-')) {
+        const pageClass = node.children[0]
+        const found = pageClass.type.match(/page-(\d+)/)
+        if (found && found.length > 1) {
+          const style = styles[parseInt(found[1])]
+          if (style) {
+            style.push(node)
+          } else {
+            styles[parseInt(found[1])] = [node]
+          }
+        }
+      }
+    }
+  })
+  return styles
+}
 
 export function* onSlideLoaded(action) {
   const res = yield axios.get(action.payload.url, {

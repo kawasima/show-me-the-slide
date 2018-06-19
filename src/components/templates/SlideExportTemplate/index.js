@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import csstree from 'css-tree'
 
 import { TextInput } from 'react-native-web'
 import NavigationHeader from '../../molecules/NavigationHeader'
@@ -25,9 +26,22 @@ const Wrapper = styled.div`
   }
 `
 
-const generateMonolithicStylesheets = (styles) => (
-  styles.join('\n----\n')
-)
+const generateMonolithicStylesheets = (styles) => {
+  return styles
+    .filter(style => !!style)
+    .map(style => csstree.parse(style))
+    .map((ast, pageNo) => {
+      csstree.walk(ast, node => {
+        if (node.type === 'Selector') {
+          node.children.unshift({"type":"WhiteSpace","loc":null,"value":" "})
+          node.children.unshift({"type":"ClassSelector","loc":null,"name":`page-${pageNo}`})
+        }
+      })
+      return ast
+    })
+    .map(ast => csstree.generate(ast))
+    .join('\n\n')
+}
 
 const SlideExportTemplate = (props) => (
   <Wrapper>
