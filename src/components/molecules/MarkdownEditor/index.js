@@ -24,11 +24,13 @@ class MarkdownEditor extends React.Component {
 
   static defaultProps = {
     value: '',
-    onBeforeChange: (e) => {},
+    onUpdatePage: () => {},
   }
 }
 
 MarkdownEditor.propTypes = {
+  value: PropTypes.string,
+  onUpdatePage: PropTypes.func,
 }
 
 export default MarkdownEditor

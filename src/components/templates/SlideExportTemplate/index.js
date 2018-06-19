@@ -27,9 +27,9 @@ const Wrapper = styled.div`
 `
 
 const generateMonolithicStylesheets = (styles) => {
+  console.log(csstree.parse(''))
   return styles
-    .filter(style => !!style)
-    .map(style => csstree.parse(style))
+    .map(style => csstree.parse(style || ''))
     .map((ast, pageNo) => {
       csstree.walk(ast, node => {
         if (node.type === 'Selector') {
@@ -39,6 +39,7 @@ const generateMonolithicStylesheets = (styles) => {
       })
       return ast
     })
+    .filter(style => !style.children.isEmpty())
     .map(ast => csstree.generate(ast))
     .join('\n\n')
 }

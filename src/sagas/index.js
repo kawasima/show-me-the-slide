@@ -50,7 +50,7 @@ export function* loadStyle(url) {
     })
     return parseStyle(res.data)
   } else {
-    return null
+    return []
   }
 }
 
@@ -61,7 +61,7 @@ export function* loadContent(url) {
     })
     return res.data.split(/[\n\r]-{4,}[\n\r]/m)
   } else {
-    return null;
+    return [];
   }
 }
 

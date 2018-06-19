@@ -14,9 +14,11 @@ class SlideKeyOperationContainer extends React.Component {
       this.props.onPressEscape && this.props.onPressEscape()
       break
     case 'ArrowRight':
+    case 'Right': // <- for Edge
       this.props.onPressArrowRight && this.props.onPressArrowRight()
       break
     case 'ArrowLeft':
+    case 'Left': // <- for Edge
       this.props.onPressArrowLeft && this.props.onPressArrowLeft()
       break
     case 'F5':
@@ -44,6 +46,10 @@ class SlideKeyOperationContainer extends React.Component {
 }
 
 SlideKeyOperationContainer.propTypes = {
+  onPressF5: PropTypes.func,
+  onPressArrowRight: PropTypes.func,
+  onPressArrowLeft: PropTypes.func,
+  onPressEscape: PropTypes.func,
 }
 
 export default SlideKeyOperationContainer
