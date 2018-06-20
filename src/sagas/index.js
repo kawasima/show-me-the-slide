@@ -3,8 +3,9 @@ import {
   select,
   all,
   call,
-  put
+  put,
 } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import axios from 'axios'
 import { push } from 'react-router-redux'
 import Actions from '../actions/slide-actions'
