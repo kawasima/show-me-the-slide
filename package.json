@@ -8,6 +8,7 @@
     "test": "jest",
     "test:watch": "yarn run test -o --watch",
     "build": "webpack --config webpack.config.production.js",
+    "build:clean": "rimraf ./build",
     "production": "node app.js"
   },
   "author": "kawasima",
@@ -82,6 +83,7 @@
     "koa-connect": "^2.0.1",
     "license-webpack-plugin": "^1.2.3",
     "react-hot-loader": "^4.1.2",
+    "rimraf": "^2.6.2",
     "style-loader": "^0.20.3",
     "url-loader": "^1.0.1",
     "webpack": "^4.8.1",

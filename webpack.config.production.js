@@ -8,7 +8,7 @@ module.exports = merge(baseConfig, {
   devtool: false,
   plugins: [
     new CopyWebpackPlugin([{
-      from: 'src/_redirects', to: 'build/'
+      from: 'src/_redirects', to: ''
     }])
   ]
 });
