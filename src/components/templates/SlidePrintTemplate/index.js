@@ -16,26 +16,28 @@ const Wrapper = styled.div`
 
 const SlideList = styled.div`
   display: flex;
-  min-width: 100%
-  max-width: 100%;
   flex-direction: column;
+  min-width: 800px;
+  max-width: 800px;
   height: ${props => props.size * 600}px;
 `
 
 const Page = styled.div`
   flex: 1;
-  width: 100%;
 `
 
 const renderSlide = (page, index) => (
-  <Page key={`page-${index}`}>
-    <SlideContainer>
-      <Slide content={page.content}
-             styleText={page.style}/>
-    </SlideContainer>
-    <div className="html2pdf__page-break"></div>
-  </Page>
+  <React.Fragment key={`page-${index}`}>
+    <Page>
+      <SlideContainer>
+        <Slide content={page.content}
+               styleText={page.style}/>
+      </SlideContainer>
+    </Page>
+  </React.Fragment>
 )
+//    <div className="html2pdf__page-break"></div>
+
 
 
 const SlidePrintTemplate = (props) => {

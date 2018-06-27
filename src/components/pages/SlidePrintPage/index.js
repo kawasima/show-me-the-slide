@@ -12,15 +12,14 @@ const connector = connect(
   s => s,
   dispatch => ({
     onPressPrintButton: (el) => {
-      console.log(el)
       const worker = html2pdf()
             .from(el.current)
             .set({
               html2canvas: {
                 foreignObjectRendering: false,
-                useCORS: true,
+                useCORS: false,
               },
-              jsPDF: { format: 'a4', orientation: 'landscape'}
+              jsPDF: { format: 'letter', orientation: 'landscape'}
             })
             .save()
     },
