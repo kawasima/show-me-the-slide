@@ -1,5 +1,3 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import SlideContainer from '../../atoms/SlideContainer'
@@ -8,7 +6,7 @@ import Slide from '../../molecules/Slide'
 const Wrapper = styled.div`
   overflow-x: scroll;
   overflow-y: hidden;
-  height: ${ props => props.height }px;
+  height: ${props => props.$height}px;
   white-space: nowrap;
 `
 
@@ -27,34 +25,25 @@ const NewSlideButton = styled.button`
   font-size: 96pt;
 `
 
-const renderSlidePreview = (page, index, props) => (
-  <SlidePreview key={`slide-preview-${index}`}>
-    <SlideContainer focus={index === props.slide.current}>
-      <Slide content={page.content}
-             styleText={page.style}
-             onClick={() => props.onPressSlide(index)}/>
-    </SlideContainer>
-  </SlidePreview>
-)
-
-const SlidePreviewList = (props) => (
-  <Wrapper height={props.height}>
-    {props.slide.pages.map((page, index) => renderSlidePreview(page, index, props))}
+const SlidePreviewList = ({ slide, onPressNewSlide, onPressSlide, height = 200 }) => (
+  <Wrapper $height={height}>
+    {slide.pages.map((page, index) => (
+      <SlidePreview key={`slide-preview-${index}`}>
+        <SlideContainer focus={index === slide.current}>
+          <Slide
+            content={page.content}
+            styleText={page.style}
+            onClick={() => onPressSlide(index)}
+          />
+        </SlideContainer>
+      </SlidePreview>
+    ))}
     <SlidePreview>
       <SlideContainer>
-        <NewSlideButton onClick={props.onPressNewSlide} type="button">+</NewSlideButton>
+        <NewSlideButton onClick={onPressNewSlide} type="button">+</NewSlideButton>
       </SlideContainer>
     </SlidePreview>
   </Wrapper>
 )
-
-SlidePreviewList.propTypes = {
-  height: PropTypes.number,
-  onPressNewSlide: PropTypes.func.isRequired,
-}
-
-SlidePreviewList.defaultProps = {
-  height: 200
-}
 
 export default SlidePreviewList

@@ -1,40 +1,38 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { useState } from 'react'
 import styled from 'styled-components'
 
-import { Button, View } from 'react-native-web'
 import MarkdownEditor from '../../molecules/MarkdownEditor'
 
 const Wrapper = styled.div`
   position: relative
 `
 
-const createUpdatePage = (props, mode) =>
-      (editor, data, value) => props.onUpdatePage(props.slide.current,
-                                                  { [mode]: value })
+const ToggleButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  cursor: pointer;
+`
 
-class PageEditor extends React.Component {
-  state = {
-    mode: 'content'
+const PageEditor = ({ slide, onUpdatePage }) => {
+  const [mode, setMode] = useState('content')
+
+  const handleUpdate = (editor, data, value) => {
+    onUpdatePage(slide.current, { [mode]: value })
   }
 
-  render() {
-    const props = this.props
-    const { mode } = this.state
-    return (
-      <Wrapper>
-        <MarkdownEditor value={props.slide.pages[props.slide.current][mode]}
-                        onUpdatePage={createUpdatePage(props, mode)} />
-        <View style={{position:'absolute', top: 0, right: 0, zIndex: 100}}>
-          <Button title={`🔁 ${mode}`}
-                  onPress={() => this.setState({mode: mode === 'content' ? 'style' : 'content'})}/>
-        </View>
-      </Wrapper>
-    )
-  }
-}
-
-PageEditor.propTypes = {
+  return (
+    <Wrapper>
+      <MarkdownEditor
+        value={slide.pages[slide.current][mode]}
+        onUpdatePage={handleUpdate}
+      />
+      <ToggleButton onClick={() => setMode(m => m === 'content' ? 'style' : 'content')}>
+        {`\u{1F501} ${mode}`}
+      </ToggleButton>
+    </Wrapper>
+  )
 }
 
 export default PageEditor

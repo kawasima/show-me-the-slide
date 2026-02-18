@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { useRef } from 'react'
 import styled from 'styled-components'
 
 import SlideContainer from '../../atoms/SlideContainer'
@@ -7,8 +6,6 @@ import Slide from '../../molecules/Slide'
 import NavigationHeader from '../../molecules/NavigationHeader'
 
 const Wrapper = styled.div`
-  div {
-  }
   div.content {
     flex: 1;
   }
@@ -19,40 +16,29 @@ const SlideList = styled.div`
   flex-direction: column;
   min-width: 800px;
   max-width: 800px;
-  height: ${props => props.size * 600}px;
+  height: ${props => props.$size * 600}px;
 `
 
 const Page = styled.div`
   flex: 1;
 `
 
-const renderSlide = (page, index) => (
-  <React.Fragment key={`page-${index}`}>
-    <Page>
-      <SlideContainer>
-        <Slide content={page.content}
-               styleText={page.style}/>
-      </SlideContainer>
-    </Page>
-  </React.Fragment>
-)
-//    <div className="html2pdf__page-break"></div>
-
-
-
 const SlidePrintTemplate = (props) => {
-  let dom = React.createRef()
+  const dom = useRef(null)
   return (
     <Wrapper>
-      <NavigationHeader {...props} printElement={dom}/>
-      <SlideList innerRef={dom} size={props.slide.pages.length}>
-        {props.slide.pages.map((page, index) => renderSlide(page, index, props))}
+      <NavigationHeader {...props} printElement={dom} />
+      <SlideList ref={dom} $size={props.slide.pages.length}>
+        {props.slide.pages.map((page, index) => (
+          <Page key={`page-${index}`}>
+            <SlideContainer>
+              <Slide content={page.content} styleText={page.style} />
+            </SlideContainer>
+          </Page>
+        ))}
       </SlideList>
     </Wrapper>
   )
-}
-
-SlidePrintTemplate.propTypes = {
 }
 
 export default SlidePrintTemplate

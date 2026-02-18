@@ -1,30 +1,34 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
 import html2pdf from 'html2pdf.js'
+import { useStore } from '../../../store'
 
-import Actions from '../../../actions/slide-actions'
 import SlidePrintTemplate from '../../templates/SlidePrintTemplate'
 
-const SlidePrintPage = (props) => (<SlidePrintTemplate {...props} />)
+const SlidePrintPage = () => {
+  const navigate = useNavigate()
+  const slide = useStore(useShallow(s => ({ pages: s.pages, current: s.current })))
 
-const connector = connect(
-  s => s,
-  dispatch => ({
-    onPressPrintButton: (el) => {
-      const worker = html2pdf()
-            .from(el.current)
-            .set({
-              html2canvas: {
-                foreignObjectRendering: false,
-                useCORS: false,
-              },
-              jsPDF: { format: 'letter', orientation: 'landscape'}
-            })
-            .save()
-    },
-    onPressDoneButton: () => dispatch(Actions.uiReturnToTop()),
-  })
-)
+  const handlePrint = (el) => {
+    html2pdf()
+      .from(el.current)
+      .set({
+        html2canvas: {
+          foreignObjectRendering: false,
+          useCORS: false,
+        },
+        jsPDF: { format: 'letter', orientation: 'landscape' },
+      })
+      .save()
+  }
 
-export default connector(SlidePrintPage)
+  return (
+    <SlidePrintTemplate
+      slide={slide}
+      onPressPrintButton={handlePrint}
+      onPressDoneButton={() => navigate('/')}
+    />
+  )
+}
+
+export default SlidePrintPage

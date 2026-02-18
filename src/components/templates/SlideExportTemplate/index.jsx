@@ -1,9 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import csstree from 'css-tree'
+import { parse, walk, generate } from 'css-tree'
 
-import { TextInput } from 'react-native-web'
 import NavigationHeader from '../../molecules/NavigationHeader'
 
 const Wrapper = styled.div`
@@ -18,7 +15,7 @@ const Wrapper = styled.div`
   > div.row {
     flex: 1 100%;
     display: flex;
-    min-width: 100%
+    min-width: 100%;
     max-width: 100%;
   }
   div.content {
@@ -27,40 +24,40 @@ const Wrapper = styled.div`
 `
 
 const generateMonolithicStylesheets = (styles) => {
-  console.log(csstree.parse(''))
   return styles
-    .map(style => csstree.parse(style || ''))
+    .map(style => parse(style || ''))
     .map((ast, pageNo) => {
-      csstree.walk(ast, node => {
+      walk(ast, node => {
         if (node.type === 'Selector') {
-          node.children.unshift({"type":"WhiteSpace","loc":null,"value":" "})
-          node.children.unshift({"type":"ClassSelector","loc":null,"name":`page-${pageNo}`})
+          node.children.unshift({ type: 'WhiteSpace', loc: null, value: ' ' })
+          node.children.unshift({ type: 'ClassSelector', loc: null, name: `page-${pageNo}` })
         }
       })
       return ast
     })
-    .filter(style => !style.children.isEmpty())
-    .map(ast => csstree.generate(ast))
+    .filter(style => !style.children.isEmpty)
+    .map(ast => generate(ast))
     .join('\n\n')
 }
 
 const SlideExportTemplate = (props) => (
   <Wrapper>
-    <NavigationHeader {...props}/>
+    <NavigationHeader {...props} />
     <div className="row">
       <div className="content">
-        <TextInput multiline={true} editable={false}
-                 value={props.slide.pages.map(p => p.content).join('\n----\n')}/>
+        <textarea
+          readOnly
+          value={props.slide.pages.map(p => p.content).join('\n----\n')}
+        />
       </div>
       <div className="content">
-        <TextInput multiline={true} editable={false}
-                   value={generateMonolithicStylesheets(props.slide.pages.map(p => p.style))}/>
+        <textarea
+          readOnly
+          value={generateMonolithicStylesheets(props.slide.pages.map(p => p.style))}
+        />
       </div>
     </div>
   </Wrapper>
 )
-
-SlideExportTemplate.propTypes = {
-}
 
 export default SlideExportTemplate

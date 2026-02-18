@@ -1,8 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import Prism from 'prismjs'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -13,8 +12,8 @@ const Wrapper = styled.div`
 `
 
 const SlideContent = styled.div`
-  ${props => props.center && 'text-align: center;' }
-  ${props => props.middle && 'vertical-align: middle;' }
+  ${props => props.$center && 'text-align: center;' }
+  ${props => props.$middle && 'vertical-align: middle;' }
   background-color: #fff;
   background-position: center;
   background-repeat: no-repeat;
@@ -26,41 +25,21 @@ const SlideContent = styled.div`
     max-width: 100%;
   }
 
-  ${props => props.styleText}
+  ${props => props.$styleText}
 `
 
-class Slide extends React.Component {
-  componentDidMount() {
+const Slide = ({ content = '', styleText, onClick, center, middle }) => {
+  useEffect(() => {
     Prism.highlightAll()
-  }
+  })
 
-  componentDidUpdate() {
-    Prism.highlightAll()
-  }
-
-  render() {
-    return (
-      <Wrapper>
-        <SlideContent {...this.props} innerRef={this.dom}>
-          <ReactMarkdown
-            source={this.props.content} />
-        </SlideContent>
-      </Wrapper>
-    )
-  }
-}
-
-Slide.propTypes = {
-  content: PropTypes.string,
-  styleText: PropTypes.string,
-  aspectRatio: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-  }),
-}
-
-Slide.defaultProps = {
-  aspectRatio: { x: 4, y: 3 }
+  return (
+    <Wrapper onClick={onClick}>
+      <SlideContent $styleText={styleText} $center={center} $middle={middle}>
+        <Markdown>{content}</Markdown>
+      </SlideContent>
+    </Wrapper>
+  )
 }
 
 export default Slide

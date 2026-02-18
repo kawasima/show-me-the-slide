@@ -1,37 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Link } from 'react-router-dom'
-import { push } from 'react-router-redux'
-import { Button, View } from 'react-native-web'
-import DropdownMenu from '../../molecules/DropdownMenu'
-
 const Wrapper = styled.nav`
-  display:flex;
+  display: flex;
   width: 100%;
   padding-left: 10px;
   padding-top: 2px;
   padding-bottom: 2px;
   margin-bottom: 2px;
   box-shadow: 0px 2px 2px #343a40;
-  background-color: #343a40!important;
+  background-color: #343a40 !important;
 `
 
-const DropdownButton = styled.div`
-  cursor: pointer;
-
-  ::after {
-    padding-right: .5rem;
-    padding-left: .5rem;
-    color: #fff;
-    line-height: 32px;
-    font-size: .5em;
-    vertical-align: top;
-    display: inline-block;
-    content: "\\25BC";
-  }
-`
 const LogoText = styled.h1`
   font-family: 'IM Fell Great Primer';
   position: relative;
@@ -39,59 +18,53 @@ const LogoText = styled.h1`
   color: #f0f0f0;
   text-shadow: 1px 1px #ffe0e0;
 `
+
 const RightItem = styled.div`
-  display:flex;
-  margin-left: auto!important;
+  display: flex;
+  margin-left: auto !important;
+  align-items: center;
+  gap: 10px;
 `
 
-const renderDoneButton = (props) => (
-  <View style={{ marginLeft: 10}}>
-    <Button title="Done" onPress={() => {
-        props.onPressDoneButton && props.onPressDoneButton()
-      }} />
-  </View>
-)
-const renderExportButton = (props) => (
-  <View style={{ marginLeft: 10}}>
-    <Button title="Export"
-            onPress={() => props.onPressExportButton && props.onPressExportButton() } />
-  </View>
-)
+const NavButton = styled.button`
+  padding: 4px 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: ${props => props.$color || '#fff'};
+  color: ${props => props.$color ? '#fff' : '#333'};
+  cursor: pointer;
+  font-size: 14px;
 
-const renderPrintButton = (props) => (
-  <View style={{ marginLeft: 10}}>
-    <Button title="Print"
-            onPress={() => props.onPressPrintButton && props.onPressPrintButton(props.printElement) } />
-  </View>
-)
+  &:hover {
+    opacity: 0.85;
+  }
+`
 
-const renderDeleteButton = (props) => (
-  <View style={{ marginLeft: 10}}>
-    <Button title="Delete All"
-            color="#d9534f"
-            onPress={() => props.onPressDeleteButton && props.onPressDeleteButton() } />
-  </View>
-)
-
-const NavigationHeader = (props) => (
+const NavigationHeader = ({
+  onPressDoneButton,
+  onPressExportButton,
+  onPressPrintButton,
+  onPressDeleteButton,
+  printElement,
+}) => (
   <Wrapper>
     <LogoText>Show me the slide</LogoText>
 
     <RightItem>
-      { props.onPressExportButton && renderExportButton(props) }
-      { props.onPressDeleteButton && renderDeleteButton(props) }
-      { props.onPressPrintButton && renderPrintButton(props) }
-      { props.onPressDoneButton && renderDoneButton(props) }
+      {onPressExportButton && (
+        <NavButton onClick={() => onPressExportButton()}>Export</NavButton>
+      )}
+      {onPressDeleteButton && (
+        <NavButton $color="#d9534f" onClick={() => onPressDeleteButton()}>Delete All</NavButton>
+      )}
+      {onPressPrintButton && (
+        <NavButton onClick={() => onPressPrintButton(printElement)}>Print</NavButton>
+      )}
+      {onPressDoneButton && (
+        <NavButton onClick={() => onPressDoneButton()}>Done</NavButton>
+      )}
     </RightItem>
   </Wrapper>
 )
-
-NavigationHeader.propTypes = {
-  printElement: PropTypes.element,
-  onPressDoneButton: PropTypes.func,
-  onPressExportButton: PropTypes.func,
-  onPressPrintButton: PropTypes.func,
-  onPressDeleteButton: PropTypes.func,
-}
 
 export default NavigationHeader

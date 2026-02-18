@@ -1,5 +1,3 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import SlideContainer from '../../atoms/SlideContainer'
@@ -17,15 +15,14 @@ const Wrapper = styled.div`
 const SlideShowTemplate = (props) => (
   <SlideKeyOperationContainer {...props}>
     <Wrapper>
-      <SlideContainer alignment={'center'}>
-        <Slide content={props.slide.pages[props.slide.current].content}
-               styleText={props.slide.pages[props.slide.current].style}/>
+      <SlideContainer alignment="center">
+        <Slide
+          content={props.slide.pages[props.slide.current].content}
+          styleText={props.slide.pages[props.slide.current].style}
+        />
       </SlideContainer>
     </Wrapper>
   </SlideKeyOperationContainer>
 )
-
-SlideShowTemplate.propTypes = {
-}
 
 export default SlideShowTemplate

@@ -1,46 +1,39 @@
-/* global URLSearchParams */
-import React from 'react'
-import { connect } from 'react-redux'
-import Actions from '../../../actions/slide-actions'
+import { useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
+import { useStore } from '../../../store'
 
 import SlideEditTemplate from '../../templates/SlideEditTemplate'
 
-class SlideEditPage extends React.Component {
-  constructor(props) {
-    super(props)
-    const params = new URLSearchParams(props.location.search)
-    const content = params.get('content')
-    const style = params.get('style')
-    if (content || style) {
-      props.onSlideLoad(content, style)
-    }
-  }
+const SlideEditPage = () => {
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const slide = useStore(useShallow(s => ({ pages: s.pages, current: s.current })))
+  const updatePage = useStore(s => s.updatePage)
+  const addPage = useStore(s => s.addPage)
+  const selectPage = useStore(s => s.selectPage)
+  const deleteAllSlides = useStore(s => s.deleteAllSlides)
+  const loadSlide = useStore(s => s.loadSlide)
 
-  render() {
-    return (
-      <SlideEditTemplate {...this.props} />
-    )
-  }
+  useEffect(() => {
+    const content = searchParams.get('content')
+    const style = searchParams.get('style')
+    if (content || style) {
+      loadSlide(content, style)
+    }
+  }, [])
+
+  return (
+    <SlideEditTemplate
+      slide={slide}
+      onUpdatePage={(pageNumber, page) => updatePage(page)}
+      onPressF5={() => navigate('/show')}
+      onPressNewSlide={() => addPage()}
+      onPressSlide={(index) => selectPage(index)}
+      onPressExportButton={() => navigate('/export')}
+      onPressDeleteButton={() => deleteAllSlides()}
+    />
+  )
 }
 
-const connector = connect(
-  s => s,
-  dispatch => (
-    {
-      onUpdatePage: (pageNumber, page) => {
-        dispatch(Actions.uiUpdatePage({
-          current: pageNumber,
-          page,
-        }))
-      },
-      onSlideLoad: (content, style) => dispatch(Actions.uiSlideLoaded({ content, style })),
-      onPressF5: () => dispatch(Actions.uiStartSlideShow()),
-      onPressNewSlide: () => dispatch(Actions.uiAddPage({ page: { content: '' }})),
-      onPressSlide: (index) => dispatch(Actions.uiSelectPage({current: index})),
-      onPressExportButton: () => dispatch(Actions.uiExportSlide()),
-      onPressDeleteButton: () => dispatch(Actions.uiDeleteAllSlides()),
-    }
-  )
-)
-
-export default connector(SlideEditPage)
+export default SlideEditPage

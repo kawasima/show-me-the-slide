@@ -1,18 +1,19 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import Actions from '../../../actions/slide-actions'
+import { useNavigate } from 'react-router-dom'
+import { useShallow } from 'zustand/react/shallow'
+import { useStore } from '../../../store'
 
 import SlideExportTemplate from '../../templates/SlideExportTemplate'
 
-const SlideExportPage = (props) => (<SlideExportTemplate {...props} />)
+const SlideExportPage = () => {
+  const navigate = useNavigate()
+  const slide = useStore(useShallow(s => ({ pages: s.pages, current: s.current })))
 
-const connector = connect(
-  s => s,
-  dispatch => (
-    {
-      onPressDoneButton: () => dispatch(Actions.uiReturnToTop()),
-    }
+  return (
+    <SlideExportTemplate
+      slide={slide}
+      onPressDoneButton={() => navigate('/')}
+    />
   )
-)
+}
 
-export default connector(SlideExportPage)
+export default SlideExportPage
